@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STM32 PWM 代码生成器 | 终极版</title>
+    <title>STM32 PWM 代码生成器 | 终极修复版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -24,10 +24,10 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
             background: var(--bg-body);
-            background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+            background-image: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%), 
                               radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
             color: var(--text-main);
             font-family: 'Inter', system-ui, sans-serif;
@@ -38,7 +38,7 @@
         }
 
         .container { width: 100%; max-width: 1400px; }
-
+        
         /* 顶部导航 */
         header {
             display: flex; justify-content: space-between; align-items: center;
@@ -47,7 +47,7 @@
         .brand { display: flex; align-items: center; gap: 15px; }
         .brand i { font-size: 2rem; color: var(--primary); }
         .brand h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
-        .tag { background: var(--primary); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; vertical-align: middle; margin-left: 10px; }
+        .tag { background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; vertical-align: middle; margin-left: 10px; }
         .github-btn { color: var(--text-muted); text-decoration: none; transition: 0.2s; font-size: 1.5rem; }
         .github-btn:hover { color: white; transform: scale(1.1); }
 
@@ -62,7 +62,7 @@
         /* 表单控件 */
         .control-group { margin-bottom: 20px; }
         label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
-
+        
         select, input[type="number"], input[type="text"] {
             width: 100%; background: var(--bg-input); border: 1px solid var(--border);
             color: white; padding: 12px; border-radius: 8px;
@@ -107,7 +107,7 @@
 
         /* 代码区域 */
         .code-container { height: 100%; display: flex; flex-direction: column; background: #0d1117; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
-
+        
         .code-tabs { display: flex; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border); }
         .tab { padding: 12px 25px; cursor: pointer; font-size: 0.9rem; color: var(--text-muted); border-right: 1px solid var(--border); transition: 0.2s; user-select: none; }
         .tab:hover { background: rgba(255,255,255,0.05); }
@@ -121,7 +121,7 @@
         .btn-download:hover { background: var(--primary-hover); }
 
         pre { flex: 1; padding: 20px; margin: 0; overflow: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; line-height: 1.6; color: #e6edf3; }
-
+        
         /* 语法高亮模拟 */
         .c-kw { color: #ff7b72; } /* 关键字 */
         .c-fn { color: #d2a8ff; } /* 函数 */
@@ -146,16 +146,16 @@
             <div class="brand">
                 <i class="fas fa-microchip"></i>
                 <div>
-                    <h1>STM32 PWM 代码生成器 <span class="tag">v2.1 Pro</span></h1>
+                    <h1>STM32 PWM 代码生成器 by Gemini<span class="tag">Fix</span></h1>
                 </div>
             </div>
-            <a href="https://github.com/yukino387/STM32-PWM-Generator?tab=readme-ov-file" target="_blank" class="github-btn" title="前往 GitHub 项目仓库"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/yukino387/STM32-PWM-Generator?tab=readme-ov-file" target="_blank" class="github-btn" title="跳转到 GitHub 仓库"><i class="fab fa-github"></i></a>
         </header>
 
         <div class="grid">
             <div class="card">
                 <div class="card-header"><i class="fas fa-cogs"></i> 参数配置</div>
-
+                
                 <div class="control-group">
                     <label>定时器 (Timer)</label>
                     <select id="timer">
@@ -234,16 +234,16 @@
                         </select>
                     </div>
                     <div class="control-group">
-                        <label>函数名称前缀</label>
-                        <input type="text" id="func-name" value="Motor_PWM">
+                        <label>函数名称前缀 (文件名将自动转为小写)</label>
+                        <input type="text" id="func-name" value="Motor_PWM" placeholder="例如: Motor_PWM">
                     </div>
                 </div>
             </div>
 
             <div class="code-container">
                 <div class="code-tabs">
-                    <div class="tab active" onclick="switchTab('c')">pwm_drive.c</div>
-                    <div class="tab" onclick="switchTab('h')">pwm_drive.h</div>
+                    <div class="tab active" onclick="switchTab('c')" id="tab-c">motor_pwm.c</div>
+                    <div class="tab" onclick="switchTab('h')" id="tab-h">motor_pwm.h</div>
                 </div>
                 <div class="code-toolbar">
                     <button class="btn btn-copy" onclick="copyCode()"><i class="far fa-copy"></i> 复制</button>
@@ -261,11 +261,10 @@
 
     <script>
         // === 1. 核心数据库：引脚定义与重映射 ===
-        // p: 引脚名, c: 通道号, r: 重映射参数(C宏定义)
         const DB = {
             'TIM1': [
                 {p:'PA8', c:1, r:null}, {p:'PA9', c:2, r:null}, {p:'PA10', c:3, r:null}, {p:'PA11', c:4, r:null},
-                {p:'PE9', c:1, r:'GPIO_FullRemap_TIM1'}, {p:'PE11', c:2, r:'GPIO_FullRemap_TIM1'},
+                {p:'PE9', c:1, r:'GPIO_FullRemap_TIM1'}, {p:'PE11', c:2, r:'GPIO_FullRemap_TIM1'}, 
                 {p:'PE13', c:3, r:'GPIO_FullRemap_TIM1'}, {p:'PE14', c:4, r:'GPIO_FullRemap_TIM1'}
             ],
             'TIM2': [
@@ -275,7 +274,7 @@
             ],
             'TIM3': [
                 {p:'PA6', c:1, r:null}, {p:'PA7', c:2, r:null}, {p:'PB0', c:3, r:null}, {p:'PB1', c:4, r:null},
-                {p:'PB4', c:1, r:'GPIO_PartialRemap_TIM3'}, {p:'PB5', c:2, r:'GPIO_PartialRemap_TIM3'},
+                {p:'PB4', c:1, r:'GPIO_PartialRemap_TIM3'}, {p:'PB5', c:2, r:'GPIO_PartialRemap_TIM3'}, 
                 {p:'PC6', c:1, r:'GPIO_FullRemap_TIM3'}, {p:'PC7', c:2, r:'GPIO_FullRemap_TIM3'},
                 {p:'PC8', c:3, r:'GPIO_FullRemap_TIM3'}, {p:'PC9', c:4, r:'GPIO_FullRemap_TIM3'}
             ],
@@ -311,20 +310,18 @@
             // 监听器绑定
             el('timer').onchange = e => { state.tim = e.target.value; updatePinList(); render(); };
             el('pin').onchange = e => { state.pinIdx = e.target.selectedIndex; render(); };
-
+            
             const bindSync = (id, targetProp) => {
                 el(id).oninput = e => {
                     let val = parseInt(e.target.value);
                     if(isNaN(val)) val = 0;
                     state[targetProp] = val;
-                    // 同步滑块和数字框
                     if(id.includes('range')) el(id.replace('-range', '')).value = val;
-                    else el(id + '-range').value = Math.min(val, parseInt(el(id+'-range').max)); // 限制滑块显示
-
-                    // 更新显示文本
+                    else el(id + '-range').value = Math.min(val, parseInt(el(id+'-range').max));
+                    
                     if(targetProp === 'freq') el('freq-disp').innerText = val + " Hz";
                     if(targetProp === 'duty') el('duty-disp').innerText = val + "%";
-
+                    
                     render();
                 }
             };
@@ -332,17 +329,23 @@
             bindSync('freq', 'freq'); bindSync('freq-range', 'freq');
             bindSync('duty', 'duty'); bindSync('duty-range', 'duty');
 
-            // 高级设置监听
             el('toggle-adv').onclick = () => {
                 const panel = el('adv-panel');
                 panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
             };
             el('sys-clock').oninput = e => { state.sysClock = parseInt(e.target.value); render(); };
             el('polarity').onchange = e => { state.polarity = e.target.value; render(); };
-            el('func-name').oninput = e => { state.funcName = e.target.value || 'PWM'; render(); };
+
+
+
+            
+            // 修复：当修改函数名时，触发重绘以更新标签页和下载文件名
+            el('func-name').oninput = e => { 
+                state.funcName = e.target.value || 'PWM'; 
+                render(); 
+            };
         }
 
-        // 更新引脚下拉列表
         function updatePinList() {
             const list = DB[state.tim];
             el('pin').innerHTML = list.map((item, i) => {
@@ -354,33 +357,24 @@
 
         // === 4. 核心算法 ===
         function calculate() {
-            // 时钟源逻辑：TIM1/8 在 APB2，其他在 APB1
-            // 假设 APB1 预分频为 2，则定时器时钟 = SystemCoreClock
-            // 这里简单处理：允许用户手动修改 SystemCoreClock
             const f_sys = state.sysClock;
-
             let bestErr = Infinity;
             let bestPsc = 0, bestArr = 0;
 
-            // 暴力搜索最佳分频组合
-            // 目标：ARR 尽可能大（分辨率高），ARR <= 65535
             for(let p = 0; p < 65535; p++) {
-                // F_pwm = F_sys / ((PSC+1)*(ARR+1))
-                // => ARR+1 = F_sys / (F_pwm * (PSC+1))
                 let targetArr = Math.round(f_sys / (state.freq * (p + 1))) - 1;
-
-                if(targetArr < 99) continue; // 过滤低分辨率 (<100级)
-                if(targetArr > 65535) break; // 超过ARR上限，PSC太小，跳出循环增加PSC
+                if(targetArr < 99) continue;
+                if(targetArr > 65535) break;
 
                 let f_act = f_sys / ((p + 1) * (targetArr + 1));
                 let err = Math.abs(f_act - state.freq);
-
+                
                 if(err < bestErr) {
                     bestErr = err; bestPsc = p; bestArr = targetArr;
                     if(err === 0) break;
                 }
             }
-
+            
             const ccr = Math.round((bestArr + 1) * (state.duty / 100));
             const f_real = f_sys / ((bestPsc + 1) * (bestArr + 1));
             const errPct = ((Math.abs(f_real - state.freq) / state.freq) * 100).toFixed(2);
@@ -388,34 +382,34 @@
             return { psc: bestPsc, arr: bestArr, ccr, f_real, err: errPct };
         }
 
-        // === 5. 代码生成器 (C语言) ===
+        // === 5. 代码生成 (C) ===
         function generateC(calc, cfg) {
-            const k = t => `<span class="c-kw">${t}</span>`; // Keyword
-            const f = t => `<span class="c-fn">${t}</span>`; // Function
-            const d = t => `<span class="c-df">${t}</span>`; // Define
-            const c = t => `<span class="c-cm">${t}</span>`; // Comment
-            const n = t => `<span class="c-nm">${t}</span>`; // Number
-            const ty = t => `<span class="c-ty">${t}</span>`; // Type
+            const k = t => `<span class="c-kw">${t}</span>`;
+            const f = t => `<span class="c-fn">${t}</span>`;
+            const d = t => `<span class="c-df">${t}</span>`;
+            const c = t => `<span class="c-cm">${t}</span>`;
+            const n = t => `<span class="c-nm">${t}</span>`;
+            const ty = t => `<span class="c-ty">${t}</span>`;
 
             const isAdv = (state.tim === 'TIM1' || state.tim === 'TIM8');
             const busCmd = isAdv ? 'RCC_APB2PeriphClockCmd' : 'RCC_APB1PeriphClockCmd';
             const busDef = isAdv ? `RCC_APB2Periph_${state.tim}` : `RCC_APB1Periph_${state.tim}`;
-
-            const pinName = cfg.p; // e.g., PA8
-            const port = 'GPIO' + pinName.charAt(1); // GPIOA
-            const pinNum = 'GPIO_Pin_' + pinName.substring(2); // GPIO_Pin_8
+            const pinName = cfg.p;
+            const port = 'GPIO' + pinName.charAt(1);
+            const pinNum = 'GPIO_Pin_' + pinName.substring(2);
             const prefix = state.funcName;
 
             let code = c(`// STM32 PWM配置 | 定时器: ${state.tim} 通道: ${cfg.c} 引脚: ${pinName}`) + '\n';
             code += c(`// 目标频率: ${state.freq}Hz | 实际频率: ${calc.f_real.toFixed(1)}Hz | 误差: ${calc.err}%`) + '\n';
-            code += `#include "stm32f10x.h"\n\n`;
-
+            code += `#include "stm32f10x.h"\n`;
+            code += `#include "${prefix.toLowerCase()}.h"\n\n`; // 包含对应的头文件
+            
             code += `${k('void')} ${f(prefix + '_Init')}(${k('void')}) {\n`;
-
+            
             code += `    ${c('// 1. 开启时钟')}\n`;
             code += `    ${f(busCmd)}(${d(busDef)}, ${d('ENABLE')});\n`;
             code += `    ${f('RCC_APB2PeriphClockCmd')}(${d('RCC_APB2Periph_' + port)}, ${d('ENABLE')});\n`;
-
+            
             if(cfg.r) {
                 code += `    ${c('// 开启AFIO时钟并配置重映射')}\n`;
                 code += `    ${f('RCC_APB2PeriphClockCmd')}(${d('RCC_APB2Periph_AFIO')}, ${d('ENABLE')});\n`;
@@ -425,28 +419,27 @@
             code += `\n    ${c('// 2. GPIO 初始化')}\n`;
             code += `    ${ty('GPIO_InitTypeDef')} GPIO_InitStructure;\n`;
             code += `    GPIO_InitStructure.GPIO_Pin = ${d(pinNum)};\n`;
-            code += `    GPIO_InitStructure.GPIO_Mode = ${d('GPIO_Mode_AF_PP')}; ${c('// 复用推挽输出')}\n`;
+            code += `    GPIO_InitStructure.GPIO_Mode = ${d('GPIO_Mode_AF_PP')};\n`;
             code += `    GPIO_InitStructure.GPIO_Speed = ${d('GPIO_Speed_50MHz')};\n`;
             code += `    ${f('GPIO_Init')}(${d(port)}, &GPIO_InitStructure);\n`;
 
             code += `\n    ${c('// 3. 定时器时基配置')}\n`;
             code += `    ${ty('TIM_TimeBaseInitTypeDef')} TIM_TimeBaseStructure;\n`;
-            code += `    TIM_TimeBaseStructure.TIM_Period = ${n(calc.arr)}; ${c('// ARR (自动重装载值)')}\n`;
-            code += `    TIM_TimeBaseStructure.TIM_Prescaler = ${n(calc.psc)}; ${c('// PSC (预分频系数)')}\n`;
+            code += `    TIM_TimeBaseStructure.TIM_Period = ${n(calc.arr)};\n`;
+            code += `    TIM_TimeBaseStructure.TIM_Prescaler = ${n(calc.psc)};\n`;
             code += `    TIM_TimeBaseStructure.TIM_ClockDivision = 0;\n`;
             code += `    TIM_TimeBaseStructure.TIM_CounterMode = ${d('TIM_CounterMode_Up')};\n`;
             code += `    ${f('TIM_TimeBaseInit')}(${d(state.tim)}, &TIM_TimeBaseStructure);\n`;
 
-            code += `\n    ${c('// 4. PWM 通道模式配置')}\n`;
+            code += `\n    ${c('// 4. PWM 通道配置')}\n`;
             code += `    ${ty('TIM_OCInitTypeDef')} TIM_OCInitStructure;\n`;
-            code += `    ${f('TIM_OCStructInit')}(&TIM_OCInitStructure); ${c('// 填充默认值防止错误')}\n`;
+            code += `    ${f('TIM_OCStructInit')}(&TIM_OCInitStructure);\n`;
             code += `    TIM_OCInitStructure.TIM_OCMode = ${d('TIM_OCMode_PWM1')};\n`;
             code += `    TIM_OCInitStructure.TIM_OutputState = ${d('TIM_OutputState_Enable')};\n`;
-            code += `    TIM_OCInitStructure.TIM_Pulse = ${n(calc.ccr)}; ${c('// 初始占空比 (CCR)')}\n`;
+            code += `    TIM_OCInitStructure.TIM_Pulse = ${n(calc.ccr)};\n`;
             code += `    TIM_OCInitStructure.TIM_OCPolarity = ${d('TIM_OCPolarity_' + state.polarity)};\n`;
-
+            
             if(isAdv) {
-                 code += `    ${c('// 高级定时器需要配置空闲状态')}\n`;
                  code += `    TIM_OCInitStructure.TIM_OutputNState = ${d('TIM_OutputNState_Disable')};\n`;
                  code += `    TIM_OCInitStructure.TIM_OCIdleState = ${d('TIM_OCIdleState_Set')};\n`;
             }
@@ -456,27 +449,24 @@
 
             code += `\n    ${c('// 5. 使能定时器')}\n`;
             code += `    ${f('TIM_Cmd')}(${d(state.tim)}, ${d('ENABLE')});\n`;
-            if(isAdv) code += `    ${f('TIM_CtrlPWMOutputs')}(${d(state.tim)}, ${d('ENABLE')}); ${c('// 高级定时器主输出使能')}\n`;
-
+            if(isAdv) code += `    ${f('TIM_CtrlPWMOutputs')}(${d(state.tim)}, ${d('ENABLE')});\n`;
+            
             code += `}\n\n`;
-            code += c(`// 动态设置占空比 (0-100%)`) + '\n';
             code += `${k('void')} ${f(prefix + '_SetDuty')}(${ty('uint16_t')} duty) {\n`;
             code += `    ${k('if')}(duty > 100) duty = 100;\n`;
-            code += `    ${c('// 计算 CCR 值: (ARR+1) * duty / 100')}\n`;
             code += `    ${ty('uint16_t')} ccr = (${d(state.tim)}->ARR + 1) * duty / 100;\n`;
             code += `    ${d(state.tim)}->CCR${cfg.c} = ccr;\n`;
             code += `}`;
-
+            
             return code;
         }
 
-        // === 6. 头文件生成 (H) ===
+        // === 6. 代码生成 (H) ===
         function generateH() {
             const prefix = state.funcName;
             const c = t => `<span class="c-cm">${t}</span>`;
-            const d = t => `<span class="c-df">${t}</span>`;
             const upper = prefix.toUpperCase();
-
+            
             return `${c('#ifndef __' + upper + '_H')}\n${c('#define __' + upper + '_H')}\n\n` +
                    `#include "stm32f10x.h"\n\n` +
                    `void ${prefix}_Init(void);\n` +
@@ -484,14 +474,14 @@
                    `${c('#endif')}`;
         }
 
-        // === 7. 渲染逻辑 ===
+        // === 7. 渲染 ===
         function render() {
             const cfg = DB[state.tim][state.pinIdx];
             const calc = calculate();
-
-            // 更新 UI 状态
+            
+            // UI 更新
             el('channel-disp').innerText = `${state.tim} 通道 ${cfg.c}`;
-
+            
             const badge = el('pin-badge');
             if(cfg.r) {
                 badge.className = 'badge badge-remap';
@@ -500,16 +490,21 @@
                 badge.className = 'badge badge-def';
                 badge.innerText = '默认引脚';
             }
-
+            
             el('res-arr').innerText = calc.arr;
             el('res-psc').innerText = calc.psc;
             el('res-freq').innerText = calc.f_real.toFixed(1) + ' Hz';
-
+            
             const errElem = el('res-err');
             errElem.innerText = calc.err + '%';
             errElem.className = parseFloat(calc.err) > 1.0 ? 'stat-value error' : 'stat-value';
 
-            // 更新代码
+            // 修复：更新标签页标题
+            const baseName = state.funcName.toLowerCase() || 'pwm';
+            el('tab-c').innerText = `${baseName}.c`;
+            el('tab-h').innerText = `${baseName}.h`;
+
+            // 代码更新
             if(state.currentTab === 'c') {
                 el('code-inner').innerHTML = generateC(calc, cfg);
             } else {
@@ -520,11 +515,10 @@
         function switchTab(t) {
             state.currentTab = t;
             document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.tab')[t === 'c' ? 0 : 1].classList.add('active');
+            document.getElementById(`tab-${t}`).classList.add('active');
             render();
         }
 
-        // === 8. 辅助功能 ===
         function copyCode() {
             navigator.clipboard.writeText(el('code-inner').innerText);
             showToast('代码已复制到剪贴板');
@@ -538,24 +532,21 @@
         }
 
         function downloadFiles() {
-            const cfg = DB[state.tim][state.pinIdx];
-            const calc = calculate();
-
-            // 简单实现：创建两个Blob并下载
-            // 注意：浏览器通常会拦截同时下载多个文件，这里我们先演示下载C文件
-            // 实际工程中可以打包zip，但需要引入外部库，为了单文件运行这里只下载C
             const content = el('code-inner').innerText;
             const blob = new Blob([content], {type: "text/plain;charset=utf-8"});
             const link = document.createElement("a");
+            
+            // 修复：使用动态文件名
+            const baseName = state.funcName.toLowerCase() || 'pwm';
+            const fileName = state.currentTab === 'c' ? `${baseName}.c` : `${baseName}.h`;
+            
             link.href = URL.createObjectURL(blob);
-            link.download = state.currentTab === 'c' ? "pwm_drive.c" : "pwm_drive.h";
+            link.download = fileName;
             link.click();
-
-            if(state.currentTab === 'c') showToast('已下载 .c 文件，请切换标签下载 .h 文件');
-            else showToast('已下载 .h 文件');
+            
+            showToast(`已下载 ${fileName}`);
         }
 
-        // 启动
         init();
     </script>
 </body>
