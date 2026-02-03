@@ -3,7 +3,7 @@
 
 一个专为嵌入式开发者设计的在线工具，用于快速生成 STM32F103 标准库 PWM 初始化代码。
 
-[🚀 **在线使用 / Live Demo**](https://你的用户名.github.io/STM32-PWM-Generator/)
+[🚀 **在线使用 / Live Demo**](https://yukino387.github.io/STM32-PWM-Generator/)
 
 ## ✨ 主要功能
 
@@ -15,7 +15,7 @@
 
 ## 🛠️ 使用方法
 
-1.  打开 [在线工具](https://你的用户名.github.io/STM32-PWM-Generator/)。
+1.  打开 [在线工具](https://yukino387.github.io/STM32-PWM-Generator/)。
 2.  在左侧面板选择 **定时器** 和 **目标引脚**。
 3.  调整 **频率** 和 **占空比**。
 4.  (可选) 点击 "高级设置" 修改系统时钟或函数名。
